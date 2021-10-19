@@ -2,57 +2,92 @@ using UnityEngine;
 
 [RequireComponent(typeof (Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class PlayerMovemont : MonoBehaviour
 {
-    private Rigidbody2D rigidbody;
-    private Animator animator;
     [SerializeField] private float speed;
+    [SerializeField] private LayerMask groundLayer;
+    private Rigidbody2D playerRigidbody;
+    private Animator animator; 
+    private BoxCollider2D boxCollider;
+
+    private bool AnimatorGroundedState 
+    {
+        get { return animator.GetBool("isGrounded"); }
+        set { animator.SetBool("isGrounded", value); }
+    }
+
+    private bool AnimatorRunningState
+    {
+        get { return animator.GetBool("isRunning"); }
+        set { animator.SetBool("isRunning", value); }
+    }
+
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
     {
+        checkIsGrounded();
         checkHorizontalShiftInput();
         checkJumpInput();
     }
 
-    private void checkHorizontalShiftInput() {
+    private void checkHorizontalShiftInput() 
+    {
         float horizontalInput = Input.GetAxis("Horizontal");
-        rigidbody.velocity = new Vector2(horizontalInput * speed, rigidbody.velocity.y);
+        playerRigidbody.velocity = new Vector2(horizontalInput * speed, playerRigidbody.velocity.y);
 
         #region animation and sprites
         checkHorizontalSpriteFlip(horizontalInput);
-        animator.SetBool("isRunning", horizontalInput != 0);
+        AnimatorRunningState = horizontalInput != 0;
         #endregion
     }
 
-    private void checkHorizontalSpriteFlip(float horizontalInput) {
+    private void checkHorizontalSpriteFlip(float horizontalInput) 
+    {
         if (horizontalInput >= 0.1f)
             transform.localScale = Vector3.one;
         else if (horizontalInput <= -0.1f)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
-    private void checkJumpInput() {
-        if (Input.GetKey(KeyCode.Space) && animator.GetBool("isGrounded"))
+    private void checkJumpInput() 
+    {
+        if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
             jump();
         }
     }
 
-    private void jump() {
-        animator.SetBool("isGrounded", false);
-        rigidbody.velocity = new Vector2(rigidbody.velocity.x, speed / 2);
+    private void checkIsGrounded() 
+    {
+        AnimatorGroundedState = isGrounded();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void jump() 
     {
-        if(collision.gameObject.CompareTag("Ground"))
-            animator.SetBool("isGrounded", true);
+        AnimatorGroundedState = false;
+        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, speed / 2);
+    }
+
+/*    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            AnimatorGroundedState = true;
+    }
+*/
+
+
+    private bool isGrounded() 
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHit.collider != null ;
     }
 
 }
