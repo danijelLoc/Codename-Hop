@@ -1,17 +1,21 @@
 using UnityEngine;
 
-[RequireComponent(typeof (Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class PlayerMovemont : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float runningSpeed;
+    [SerializeField] private float jumpSpeed;
+    [SerializeField] private float airborneSpeed;
+    [SerializeField] private float airborneControlFactor;
     [SerializeField] private LayerMask groundLayer;
     private Rigidbody2D playerRigidbody;
-    private Animator animator; 
+    private Animator animator;
     private BoxCollider2D boxCollider;
+    private bool momentJustAfterJump = false; //Moment after jump, player is still close to ground. Horizontal input at running speed must be avoided.
 
-    private bool AnimatorGroundedState 
+    private bool AnimatorGroundedState
     {
         get { return animator.GetBool("isGrounded"); }
         set { animator.SetBool("isGrounded", value); }
@@ -23,6 +27,10 @@ public class PlayerMovemont : MonoBehaviour
         set { animator.SetBool("isRunning", value); }
     }
 
+    private float HorizontalInput
+    {
+        get { return Input.GetAxis("Horizontal"); }
+    }
 
     private void Awake()
     {
@@ -34,60 +42,67 @@ public class PlayerMovemont : MonoBehaviour
     private void Update()
     {
         checkIsGrounded();
-        checkHorizontalShiftInput();
         checkJumpInput();
+        checkHorizontalShiftInput();
     }
 
-    private void checkHorizontalShiftInput() 
+    private void checkHorizontalShiftInput()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        playerRigidbody.velocity = new Vector2(horizontalInput * speed, playerRigidbody.velocity.y);
-
-        #region animation and sprites
-        checkHorizontalSpriteFlip(horizontalInput);
-        AnimatorRunningState = horizontalInput != 0;
-        #endregion
+        if (isGrounded() && !momentJustAfterJump)
+            playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
+        else
+        {
+            playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
+        }
+        checkHorizontalSpriteFlip();
+        AnimatorRunningState = HorizontalInput != 0;
     }
 
-    private void checkHorizontalSpriteFlip(float horizontalInput) 
+    private void checkHorizontalSpriteFlip()
     {
-        if (horizontalInput >= 0.1f)
+        if (HorizontalInput >= 0.1f)
             transform.localScale = Vector3.one;
-        else if (horizontalInput <= -0.1f)
+        else if (HorizontalInput <= -0.1f)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
-    private void checkJumpInput() 
+    private void checkJumpInput()
     {
         if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
             jump();
+            momentJustAfterJump = true;
+        }
+        else
+        {
+            momentJustAfterJump = false;
         }
     }
 
-    private void checkIsGrounded() 
+    private void checkIsGrounded()
     {
         AnimatorGroundedState = isGrounded();
     }
 
-    private void jump() 
+    private void jump()
     {
-        AnimatorGroundedState = false;
-        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, speed / 2);
+        playerRigidbody.velocity = new Vector2(HorizontalInput * airborneSpeed, jumpSpeed);
     }
 
-/*    private void OnCollisionEnter2D(Collision2D collision)
+    private bool isGrounded()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-            AnimatorGroundedState = true;
-    }
-*/
-
-
-    private bool isGrounded() 
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null ;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
+        return raycastHit.collider != null;
     }
 
+    private float getHorizontalAirborneVelocity()
+    {
+        float tempVelocity = playerRigidbody.velocity.x + HorizontalInput * airborneControlFactor;
+        if (playerRigidbody.velocity.x < 0 && tempVelocity < -airborneSpeed)
+            return -airborneSpeed;
+        else if (playerRigidbody.velocity.x > 0 && tempVelocity > airborneSpeed)
+            return airborneSpeed;
+        else
+            return tempVelocity;
+    }
 }
