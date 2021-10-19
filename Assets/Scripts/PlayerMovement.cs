@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private BoxCollider2D boxCollider;
     private bool momentJustAfterJump = false; //Moment after jump, player is still close to ground. Horizontal input at running speed must be avoided.
+    private float wallJumpCoolDown;
 
     private bool AnimatorGroundedState
     {
@@ -49,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         AnimatorGroundedState = isGrounded();
-        AnimatorWallState = isOnTheWall();
+        checkWallDistance();
         checkJumpInput();
         checkHorizontalShiftInput();
     }
@@ -62,23 +64,18 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
         }
-        checkHorizontalSpriteFlip();
+        setHorizontalSpriteOrientation();
         AnimatorRunningState = HorizontalInput != 0;
-    }
-
-    private void checkHorizontalSpriteFlip()
-    {
-        if (HorizontalInput >= 0.1f)
-            transform.localScale = Vector3.one;
-        else if (HorizontalInput <= -0.1f)
-            transform.localScale = new Vector3(-1, 1, 1);
     }
 
     private void checkJumpInput()
     {
-        if (Input.GetKey(KeyCode.Space) && AnimatorGroundedState)
+        if (Input.GetKey(KeyCode.Space))
         {
-            jump();
+            if(AnimatorGroundedState)
+                jump();
+            if (AnimatorWallState)
+                wallJump();
             momentJustAfterJump = true;
         }
         else
@@ -87,9 +84,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void checkWallDistance()
+    {
+        bool playerOnTheWall = isOnTheWall();
+        if (playerOnTheWall && !AnimatorGroundedState)
+        {
+            playerRigidbody.gravityScale = 0;
+            playerRigidbody.velocity = Vector2.zero;
+        }
+        else
+        {
+            playerRigidbody.gravityScale = 2;
+        }
+        AnimatorWallState = playerOnTheWall;
+    }
+
+    private void setHorizontalSpriteOrientation()
+    {
+        if (HorizontalInput >= 0.1f)
+            transform.localScale = Vector3.one;
+        else if (HorizontalInput <= -0.1f)
+            transform.localScale = new Vector3(-1, 1, 1);
+    }
+
     private void jump()
     {
         playerRigidbody.velocity = new Vector2(HorizontalInput * jumpHorizontalSpeed, jumpVerticalSpeed);
+    }
+
+    private void wallJump()
+    {
+        playerRigidbody.velocity = new Vector2(-Mathf.Sign(transform.localScale.x)*3, jumpVerticalSpeed);
     }
 
     private bool isGrounded()
