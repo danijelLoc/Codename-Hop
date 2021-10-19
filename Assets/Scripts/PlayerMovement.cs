@@ -3,13 +3,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class PlayerMovemont : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float runningSpeed;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private float airborneSpeed;
+    [SerializeField] private float jumpVerticalSpeed;
+    [SerializeField] private float jumpHorizontalSpeed;
     [SerializeField] private float airborneControlFactor;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer;
     private Rigidbody2D playerRigidbody;
     private Animator animator;
     private BoxCollider2D boxCollider;
@@ -27,6 +28,12 @@ public class PlayerMovemont : MonoBehaviour
         set { animator.SetBool("isRunning", value); }
     }
 
+    private bool AnimatorWallState
+    {
+        get { return animator.GetBool("isOnTheWall"); }
+        set { animator.SetBool("isOnTheWall", value); }
+    }
+
     private float HorizontalInput
     {
         get { return Input.GetAxis("Horizontal"); }
@@ -41,14 +48,15 @@ public class PlayerMovemont : MonoBehaviour
 
     private void Update()
     {
-        checkIsGrounded();
+        AnimatorGroundedState = isGrounded();
+        AnimatorWallState = isOnTheWall();
         checkJumpInput();
         checkHorizontalShiftInput();
     }
 
     private void checkHorizontalShiftInput()
     {
-        if (isGrounded() && !momentJustAfterJump)
+        if (AnimatorGroundedState && !momentJustAfterJump)
             playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
         else
         {
@@ -68,7 +76,7 @@ public class PlayerMovemont : MonoBehaviour
 
     private void checkJumpInput()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded())
+        if (Input.GetKey(KeyCode.Space) && AnimatorGroundedState)
         {
             jump();
             momentJustAfterJump = true;
@@ -79,14 +87,9 @@ public class PlayerMovemont : MonoBehaviour
         }
     }
 
-    private void checkIsGrounded()
-    {
-        AnimatorGroundedState = isGrounded();
-    }
-
     private void jump()
     {
-        playerRigidbody.velocity = new Vector2(HorizontalInput * airborneSpeed, jumpSpeed);
+        playerRigidbody.velocity = new Vector2(HorizontalInput * jumpHorizontalSpeed, jumpVerticalSpeed);
     }
 
     private bool isGrounded()
@@ -95,13 +98,19 @@ public class PlayerMovemont : MonoBehaviour
         return raycastHit.collider != null;
     }
 
+    private bool isOnTheWall()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.01f, wallLayer);
+        return raycastHit.collider != null;
+    }
+
     private float getHorizontalAirborneVelocity()
     {
         float tempVelocity = playerRigidbody.velocity.x + HorizontalInput * airborneControlFactor;
-        if (playerRigidbody.velocity.x < 0 && tempVelocity < -airborneSpeed)
-            return -airborneSpeed;
-        else if (playerRigidbody.velocity.x > 0 && tempVelocity > airborneSpeed)
-            return airborneSpeed;
+        if (playerRigidbody.velocity.x < 0 && tempVelocity < -jumpHorizontalSpeed)
+            return -jumpHorizontalSpeed;
+        else if (playerRigidbody.velocity.x > 0 && tempVelocity > jumpHorizontalSpeed)
+            return jumpHorizontalSpeed;
         else
             return tempVelocity;
     }
