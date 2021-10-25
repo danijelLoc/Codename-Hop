@@ -59,13 +59,21 @@ public class PlayerMovement : MonoBehaviour
     private void checkHorizontalShiftInput()
     {
         if (AnimatorGroundedState && !momentJustAfterJump)
+        {
             playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
+            AnimatorRunningState = HorizontalInput != 0;
+            setHorizontalSpriteOrientation();
+        }
+        else if (AnimatorWallState)
+        {
+
+        }
         else
         {
             playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
+            setHorizontalSpriteOrientation();
         }
-        setHorizontalSpriteOrientation();
-        AnimatorRunningState = HorizontalInput != 0;
+        
     }
 
     private void checkJumpInput()
@@ -114,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void wallJump()
     {
-        playerRigidbody.velocity = new Vector2(-Mathf.Sign(transform.localScale.x)*3, jumpVerticalSpeed);
+        playerRigidbody.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, jumpVerticalSpeed * 0.7f);
     }
 
     private bool isGrounded()
