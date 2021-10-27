@@ -64,11 +64,7 @@ public class PlayerMovement : MonoBehaviour
             AnimatorRunningState = HorizontalInput != 0;
             setHorizontalSpriteOrientation();
         }
-        else if (AnimatorWallState)
-        {
-
-        }
-        else
+        else if(!AnimatorWallState)
         {
             playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
             setHorizontalSpriteOrientation();
