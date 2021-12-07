@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;
+    [SerializeField] private Transform shootingPoint;
+    [SerializeField] private GameObject[] bullets;
     private Animator animator;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
@@ -30,5 +32,12 @@ public class PlayerShooting : MonoBehaviour
     {
         animator.SetTrigger("shoot");
         cooldownTimer = 0;
+    }
+
+    private void PullTheTrigger() 
+    {
+        bullets[0].transform.position = shootingPoint.position;
+        bullets[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+
     }
 }
