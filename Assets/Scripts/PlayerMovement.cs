@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         checkWallDistance();
         checkJumpInput();
         checkHorizontalShiftInput();
+        
     }
 
     private void checkHorizontalShiftInput()
