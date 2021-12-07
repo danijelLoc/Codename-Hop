@@ -106,10 +106,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void setHorizontalSpriteOrientation()
     {
-        if (HorizontalInput >= 0.1f)
-            transform.localScale = Vector3.one;
-        else if (HorizontalInput <= -0.1f)
-            transform.localScale = new Vector3(-1, 1, 1);
+        if (HorizontalInput > 0)
+        {
+            // Face right
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else if (HorizontalInput < 0)
+        {
+            // Face left
+            transform.localScale = new Vector3(-1 * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private void jump()
@@ -143,5 +149,10 @@ public class PlayerMovement : MonoBehaviour
             return jumpHorizontalSpeed;
         else
             return tempVelocity;
+    }
+
+    public bool canShoot() 
+    {
+        return isGrounded() && ! isOnTheWall();
     }
 }
