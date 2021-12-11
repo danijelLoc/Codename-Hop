@@ -17,11 +17,11 @@ public class Projectile : MonoBehaviour
     }
     private void Update()
     {
-/*        if (hit) 
+        if (hit) 
         {
             Deactivate();
             return;
-        }*/
+        }
         float movementSpeed = speed * Time.deltaTime * direction;
         transform.Translate(movementSpeed, 0, 0);
 
@@ -30,6 +30,7 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Debug.Log(collision.name);
         hit = true;
         boxCollider.enabled = false;
     }

@@ -34,10 +34,19 @@ public class PlayerShooting : MonoBehaviour
         cooldownTimer = 0;
     }
 
-    private void PullTheTrigger() 
+    private void PullTheTrigger()
     {
-        bullets[0].transform.position = shootingPoint.position;
-        bullets[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        bullets[FindBullet()].transform.position = shootingPoint.position;
+        bullets[FindBullet()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
 
+    private int FindBullet()
+    {
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            if (!bullets[i].activeInHierarchy)
+                return i;
+        }
+        return 0;
     }
 }
