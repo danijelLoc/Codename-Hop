@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [SerializeField] private float attackCooldown;
+    [SerializeField] private float shootingCooldown;
     [SerializeField] private Transform shootingPoint;
     [SerializeField] private GameObject[] bullets;
     private Animator animator;
@@ -22,7 +22,7 @@ public class PlayerShooting : MonoBehaviour
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.F) && cooldownTimer > attackCooldown && playerMovement.canShoot())
+        if (Input.GetKeyDown(KeyCode.F) && cooldownTimer > shootingCooldown && playerMovement.canShoot())
         {
             Shoot();
         }

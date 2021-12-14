@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         AnimatorGroundedState = isGrounded();
+        AnimatorRunningState = HorizontalInput != 0 && AnimatorGroundedState;
         checkWallDistance();
         checkJumpInput();
         checkHorizontalShiftInput();
@@ -62,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
         if (AnimatorGroundedState && !momentJustAfterJump)
         {
             playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
-            AnimatorRunningState = HorizontalInput != 0;
             setHorizontalSpriteOrientation();
         }
         else if(!AnimatorWallState)
@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 
@@ -153,6 +153,11 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canShoot() 
     {
-        return isGrounded() && ! isOnTheWall();
+        return !isOnTheWall();
+    }
+
+    public bool canAttackWithSword()
+    {
+        return !isOnTheWall();
     }
 }
