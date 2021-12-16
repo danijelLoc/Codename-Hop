@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            playerRigidbody.gravityScale = 2;
+            playerRigidbody.gravityScale = 1;
         }
         AnimatorWallState = playerOnTheWall;
     }
