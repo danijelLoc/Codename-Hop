@@ -10,6 +10,7 @@ public class PlayerShooting : MonoBehaviour
     private Animator animator;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
+    [SerializeField] private AudioClip gunShotSound;
 
     // Start is called before the first frame update
     private void Start()
@@ -32,6 +33,7 @@ public class PlayerShooting : MonoBehaviour
     {
         animator.SetTrigger("shoot");
         cooldownTimer = 0;
+        SoundManager.instance.PlaySound(gunShotSound);
     }
 
     private void PullTheTrigger()

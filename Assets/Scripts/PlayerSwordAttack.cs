@@ -8,6 +8,7 @@ public class PlayerSwordAttack : MonoBehaviour
     private Animator animator;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
+    [SerializeField] private AudioClip swordAirSound;
 
     // Start is called before the first frame update
     private void Start()
@@ -30,5 +31,8 @@ public class PlayerSwordAttack : MonoBehaviour
     {
         animator.SetTrigger("attackWithSword");
         cooldownTimer = 0;
+
+        //TODO Ako je zamah u prazno onda ovo, ako pogodi nešto ili nekog onda drugi zvuk
+        SoundManager.instance.PlaySound(swordAirSound);
     }
 }
