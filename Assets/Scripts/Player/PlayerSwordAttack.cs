@@ -29,7 +29,9 @@ public class PlayerSwordAttack : MonoBehaviour
 
     private void Attack()
     {
-        animator.SetTrigger("attackWithSword");
+        if (Input.GetKey(KeyCode.S)) animator.SetTrigger("attackDownWithSword");
+        else if (Input.GetKey(KeyCode.W)) animator.SetTrigger("attackUpWithSword");
+        else animator.SetTrigger("attackWithSword");
         cooldownTimer = 0;
 
         //TODO Ako je zamah u prazno onda ovo, ako pogodi nešto ili nekog onda drugi zvuk
