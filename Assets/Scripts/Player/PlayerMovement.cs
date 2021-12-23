@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerRigidbody;
     private Animator animator;
     private BoxCollider2D boxCollider;
+    private Health playerHealth;
     private bool momentJustAfterJump = false; //Moment after jump, player is still close to ground. Horizontal input at running speed must be avoided.
     private float wallJumpCoolDown;
 
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        playerHealth = GetComponent<Health>();
     }
 
     private void Update()
@@ -55,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         checkWallDistance();
         checkJumpInput();
         checkHorizontalShiftInput();
-        
+        if (playerHealth.isDead()) this.enabled = false;
     }
 
     private void checkHorizontalShiftInput()

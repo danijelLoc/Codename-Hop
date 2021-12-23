@@ -1622,7 +1622,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.12456465, y: 1.1388173}
+  m_Offset: {x: -0.36951077, y: 1.1388173}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1633,7 +1633,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10.14722, y: 11.938453}
+  m_Size: {x: 6.8687935, y: 11.938453}
   m_EdgeRadius: 0
 --- !u!50 &597665935
 Rigidbody2D:
@@ -1727,7 +1727,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c992ec04ba35a448dc1886b75888bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 1
+  damage: 1
   swordAttackCooldown: 0.5
+  colliderDistance: 6
+  boxCollider: {fileID: 597665934}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &637246965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,7 +2328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164008486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.44, y: -2.3, z: -41.86632}
+  m_LocalPosition: {x: 4.32, y: -2.37, z: -41.86632}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2989,12 +2996,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1732152268}
   - component: {fileID: 1732152267}
+  - component: {fileID: 1732152272}
   - component: {fileID: 1732152266}
   - component: {fileID: 1732152265}
   - component: {fileID: 1732152271}
   - component: {fileID: 1732152270}
   - component: {fileID: 1732152269}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KnightWithAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3107,7 +3115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732152264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4, y: -2.85, z: 0}
+  m_LocalPosition: {x: 2.33, y: -2.46, z: 0}
   m_LocalScale: {x: -0.35, y: 0.35, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3162,7 +3170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb460628773bd74d8373e4f010522bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 1
+  attackCooldown: 0.5
   range: 1
   damage: 1
   colliderDistance: 3
@@ -3170,6 +3178,22 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1732152272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732152264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406e621fd54dc054387b1ef9e44a5373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1774015741
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,7 +3248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892742611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.28, y: -2.38, z: -41.86632}
+  m_LocalPosition: {x: -0.76, y: -2.38, z: -41.86632}
   m_LocalScale: {x: 0.40765, y: 0.40765, z: 0.40765}
   m_Children: []
   m_Father: {fileID: 0}

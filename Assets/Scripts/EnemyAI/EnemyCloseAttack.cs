@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CloseAttack : MonoBehaviour
+public class EnemyCloseAttack : MonoBehaviour
 {
     [Header("Attack Parameters")]
     [SerializeField] private float attackCooldown;
@@ -13,23 +13,31 @@ public class CloseAttack : MonoBehaviour
 
     [Header("Player Layer")]
     [SerializeField] private LayerMask playerLayer;
-    private float cooldownTimer = Mathf.Infinity;
 
     //References
     private Animator anim;
     private Health playerHealth;
+    private Health enemyHealth;
     private EnemyPatrol enemyPatrol;
+
+    private float cooldownTimer = Mathf.Infinity;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         enemyPatrol = GetComponentInParent<EnemyPatrol>();
+        enemyHealth = GetComponent<Health>();
     }
 
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
-
+        if (enemyHealth.isDead())
+        {
+            enemyPatrol.enabled = false;
+            this.enabled = false;
+            return;
+        }
         //Attack only when player in sight?
         if (PlayerInSight())
         {
@@ -44,6 +52,14 @@ public class CloseAttack : MonoBehaviour
             enemyPatrol.enabled = !PlayerInSight();
     }
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(boxCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
+            new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z));
+    }
+
     private bool PlayerInSight()
     {
         RaycastHit2D hit =
@@ -55,12 +71,6 @@ public class CloseAttack : MonoBehaviour
             playerHealth = hit.transform.GetComponent<Health>();
 
         return hit.collider != null;
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(boxCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z));
     }
 
     private void DamagePlayer()
