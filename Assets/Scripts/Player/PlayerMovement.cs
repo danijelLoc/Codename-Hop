@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         checkJumpInput();
         checkHorizontalShiftInput();
         AnimatorRunningState = HorizontalInput != 0 && AnimatorGroundedState && !AnimatorOnGuardState;
-        if (playerHealth.isDead()) this.enabled = false;
+        if (playerHealth && playerHealth.isDead()) this.enabled = false;
     }
 
     private void checkHorizontalShiftInput()

@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &9262280
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -514,6 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &99855898
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1569,7 +1571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runningSpeed: 10
-  jumpVerticalSpeed: 12
+  jumpVerticalSpeed: 8
   jumpHorizontalSpeed: 5
   airborneControlFactor: 0.2
   groundLayer:
@@ -1611,7 +1613,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c992ec04ba35a448dc1886b75888bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 1
+  damage: 0
   swordAttackCooldown: 0.5
+  colliderDistance: 5
+  boxCollider: {fileID: 597665934}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   swordAirSound: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
 --- !u!1001 &649535585
 PrefabInstance:
@@ -2160,6 +2169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1058194534
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2939,6 +2949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1473013475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3694,6 +3705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1935346395
 SpriteRenderer:
   m_ObjectHideFlags: 0
