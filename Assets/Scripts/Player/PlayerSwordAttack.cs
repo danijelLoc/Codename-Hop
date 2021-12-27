@@ -17,7 +17,6 @@ public class PlayerSwordAttack : MonoBehaviour
 
     [Header("Enemy Layer")]
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private AudioClip swordAirSound;
 
     private Health enemyHealth;
     private Animator animator;
@@ -54,11 +53,7 @@ public class PlayerSwordAttack : MonoBehaviour
             
         cooldownTimer = 0;
 
-<<<<<<< HEAD
-        //TODO Ako je zamah u prazno onda ovo, ako pogodi nešto ili nekog onda drugi zvuk
-=======
         //TODO Ako je zamah u prazno onda ovo, ako pogodi nesto ili nekog onda drugi zvuk
->>>>>>> Merge battle-system to develop
         SoundManager.instance.PlaySound(swordAirSound);
     }
 

@@ -1874,7 +1874,7 @@ MonoBehaviour:
   - {fileID: 1066327504}
   - {fileID: 1717594996}
   - {fileID: 1371725596}
-  gunShotSound: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
+  gunShotSound: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
 --- !u!114 &597665938
 MonoBehaviour:
   m_ObjectHideFlags: 0
