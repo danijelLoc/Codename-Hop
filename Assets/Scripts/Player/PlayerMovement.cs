@@ -31,6 +31,12 @@ public class PlayerMovement : MonoBehaviour
         set { animator.SetBool("isRunning", value); }
     }
 
+    private bool AnimatorOnGuardState
+    {
+        get { return animator.GetBool("onGuard"); }
+        set { animator.SetBool("onGuard", value); }
+    }
+
     private bool AnimatorWallState
     {
         get { return animator.GetBool("isOnTheWall"); }
@@ -52,32 +58,49 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        AnimatorGroundedState = isGrounded();
-        AnimatorRunningState = HorizontalInput != 0 && AnimatorGroundedState;
+        AnimatorGroundedState = isGrounded();        
         checkWallDistance();
+        checkOnGuardInput();
         checkJumpInput();
         checkHorizontalShiftInput();
+        AnimatorRunningState = HorizontalInput != 0 && AnimatorGroundedState && !AnimatorOnGuardState;
         if (playerHealth.isDead()) this.enabled = false;
     }
 
     private void checkHorizontalShiftInput()
     {
-        if (AnimatorGroundedState && !momentJustAfterJump)
+        if (AnimatorGroundedState && !AnimatorOnGuardState && !momentJustAfterJump)
         {
             playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
             setHorizontalSpriteOrientation();
         }
-        else if(!AnimatorWallState)
+        else if(!AnimatorWallState && !AnimatorOnGuardState)
         {
             playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
             setHorizontalSpriteOrientation();
         }
-        
+    }
+
+    private void checkOnGuardInput()
+    {
+        if (AnimatorGroundedState && !momentJustAfterJump)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                animator.SetTrigger("takeGuard");
+                return;
+            }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                return;
+            }
+        }
+        AnimatorOnGuardState = false;
     }
 
     private void checkJumpInput()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if(AnimatorGroundedState)
                 jump();
@@ -161,5 +184,10 @@ public class PlayerMovement : MonoBehaviour
     public bool canAttackWithSword()
     {
         return !isOnTheWall();
+    }
+
+    public void SetOnGourd()
+    {
+        AnimatorOnGuardState = true;
     }
 }

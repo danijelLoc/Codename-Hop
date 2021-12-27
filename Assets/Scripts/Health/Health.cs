@@ -23,15 +23,18 @@ public class Health : MonoBehaviour
             TakeDamage(1);
         if (dead)
         {
-            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+/*            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
             bool onTheGround = raycastHit.collider != null;
             if (onTheGround)
-                GetComponent<Rigidbody2D>().simulated = false; rigidBodyDisabled = true;
+                GetComponent<Rigidbody2D>().simulated = false; rigidBodyDisabled = true;*/
         }
     }
 
     public void TakeDamage(float _damage)
     {
+        if (anim.GetBool("onGuard"))
+            return;
+
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
 
         if (currentHealth > 0)
