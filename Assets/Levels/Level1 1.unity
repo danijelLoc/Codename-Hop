@@ -1233,7 +1233,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f29f93629b234db4a9a13ecaa3ed6227, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1874,7 +1874,7 @@ MonoBehaviour:
   - {fileID: 1066327504}
   - {fileID: 1717594996}
   - {fileID: 1371725596}
-  gunShotSound: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
+  gunShotSound: {fileID: 8300000, guid: abdc6dede29b0d441b9160e60a7910fd, type: 3}
 --- !u!114 &597665938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,7 +1911,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  swordAirSound: {fileID: 8300000, guid: 2375dadc4293d3f4380b59887ce8416b, type: 3}
+  swordAirSound: {fileID: 8300000, guid: 82770f51c0928a440ade755414e3f994, type: 3}
 --- !u!1 &637246965
 GameObject:
   m_ObjectHideFlags: 0
