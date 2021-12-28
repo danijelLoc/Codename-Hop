@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &9262280
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -514,6 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &99855898
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -990,7 +992,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0a50c79264b8a214e83c1371697c620f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0e562a3cc635412478e9a85674ed6ad1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -1569,7 +1571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runningSpeed: 10
-  jumpVerticalSpeed: 12
+  jumpVerticalSpeed: 8
   jumpHorizontalSpeed: 5
   airborneControlFactor: 0.2
   groundLayer:
@@ -1598,7 +1600,7 @@ MonoBehaviour:
   - {fileID: 1935346390}
   - {fileID: 9262275}
   - {fileID: 1473013471}
-  gunShotSound: {fileID: 8300000, guid: 6dd7024f00606b44eb5884197a66a893, type: 3}
+  gunShotSound: {fileID: 8300000, guid: abdc6dede29b0d441b9160e60a7910fd, type: 3}
 --- !u!114 &597665939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,8 +1613,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c992ec04ba35a448dc1886b75888bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 1
+  damage: 0
   swordAttackCooldown: 0.5
-  swordAirSound: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
+  colliderDistance: 5
+  boxCollider: {fileID: 597665934}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  swordAirSound: {fileID: 8300000, guid: 82770f51c0928a440ade755414e3f994, type: 3}
 --- !u!1001 &649535585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2160,6 +2169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1058194534
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2939,6 +2949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1473013475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3694,6 +3705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  demage: 0
 --- !u!212 &1935346395
 SpriteRenderer:
   m_ObjectHideFlags: 0
