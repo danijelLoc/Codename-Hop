@@ -5,6 +5,7 @@ public class EnemyPatrol : MonoBehaviour
     [Header("Patrol Points")]
     [SerializeField] private Transform leftEdge;
     [SerializeField] private Transform rightEdge;
+    [SerializeField] private LayerMask groundLayer;
 
     [Header("Enemy")]
     [SerializeField] private Transform enemy;
@@ -18,20 +19,31 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float idleDuration;
     private float idleTimer;
 
-    [Header("Enemy Animator")]
-    [SerializeField] private Animator anim;
+    private Rigidbody2D playerRigidbody;
+    private Animator animator;
+    private Collider2D collider2d;
+
+    private bool AnimatorGroundedState
+    {
+        get { return animator.GetBool("isGrounded"); }
+        set { animator.SetBool("isGrounded", value); }
+    }
 
     private void Awake()
     {
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        collider2d = GetComponent<Collider2D>();
         initScale = enemy.localScale;
     }
     private void OnDisable()
     {
-        anim.SetBool("moving", false);
+        animator.SetBool("moving", false);
     }
 
     private void Update()
     {
+        AnimatorGroundedState = isGrounded();
         if (movingLeft)
         {
             if (enemy.position.x >= leftEdge.position.x)
@@ -50,7 +62,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private void DirectionChange()
     {
-        anim.SetBool("moving", false);
+        animator.SetBool("moving", false);
         idleTimer += Time.deltaTime;
 
         if (idleTimer > idleDuration)
@@ -60,7 +72,7 @@ public class EnemyPatrol : MonoBehaviour
     private void MoveInDirection(int _direction)
     {
         idleTimer = 0;
-        anim.SetBool("moving", true);
+        animator.SetBool("moving", true);
 
         //Make enemy face direction
         enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction,
@@ -69,5 +81,11 @@ public class EnemyPatrol : MonoBehaviour
         //Move in that direction
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * _direction * speed,
             enemy.position.y, enemy.position.z);
+    }
+
+    private bool isGrounded()
+    {
+        RaycastHit2D raycastHitGround = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHitGround.collider != null;
     }
 }

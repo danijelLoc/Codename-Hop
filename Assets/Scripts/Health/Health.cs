@@ -8,13 +8,13 @@ public class Health : MonoBehaviour
     private Animator anim;
     private bool dead;
     private bool rigidBodyDisabled;
-    private BoxCollider2D boxCollider;
+    private Collider2D collider2d;
 
     private void Awake()
     {
         currentHealth = startingHealth;
         anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        collider2d = GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
             TakeDamage(1);
         if (dead)
         {
-            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
+            RaycastHit2D raycastHit = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
             bool onTheGround = raycastHit.collider != null;
             if (onTheGround)
                 Invoke(nameof(DisableRigidBody), 1f);
