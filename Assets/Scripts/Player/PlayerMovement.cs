@@ -11,11 +11,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHorizontalSpeed;
     [SerializeField] private float airborneControlFactor;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask wallLayer;
     private Rigidbody2D playerRigidbody;
     private Animator animator;
     private BoxCollider2D boxCollider;
-    private Health playerHealth;
+    private Health health;
+    private Shooting shooting;
     private bool momentJustAfterJump = false; //Moment after jump, player is still close to ground. Horizontal input at running speed must be avoided.
     private float wallJumpCoolDown;
 
@@ -53,18 +55,20 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-        playerHealth = GetComponent<Health>();
+        health = GetComponent<Health>();
+        shooting = GetComponent<Shooting>();
     }
 
     private void Update()
     {
         AnimatorGroundedState = isGrounded();        
         checkWallDistance();
+        checkShootInput();
         checkOnGuardInput();
         checkJumpInput();
         checkHorizontalShiftInput();
         AnimatorRunningState = HorizontalInput != 0 && AnimatorGroundedState && !AnimatorOnGuardState;
-        if (playerHealth && playerHealth.isDead()) this.enabled = false;
+        if (health && health.isDead()) this.enabled = false;
     }
 
     private void checkHorizontalShiftInput()
@@ -96,6 +100,25 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         AnimatorOnGuardState = false;
+    }
+
+    private void checkShootInput()
+    {
+        if (canShoot())
+        {
+            if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.W))
+            {
+                shooting.ShootUp();
+            }
+            else if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.S))
+            {
+                shooting.ShootDown();
+            }
+            else if (Input.GetKey(KeyCode.F) )
+            {
+                shooting.Shoot();
+            }
+        }
     }
 
     private void checkJumpInput()
@@ -155,8 +178,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null;
+        RaycastHit2D raycastHitGround = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastHitOnEnemy = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, enemyLayer);
+        return raycastHitGround.collider != null || raycastHitOnEnemy.collider != null;
     }
 
     private bool isOnTheWall()
