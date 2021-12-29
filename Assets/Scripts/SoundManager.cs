@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(AudioClip _sound) 
     {
+        
         //Plays audio only once
         source.PlayOneShot(_sound);
     }
