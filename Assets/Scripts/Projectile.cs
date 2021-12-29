@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float demage;
-    private float direction;
+    private Vector2 direction;
     private bool hit;
     private float lifetime;
 
@@ -23,8 +23,8 @@ public class Projectile : MonoBehaviour
             Deactivate();
             return;
         }
-        float movementSpeed = speed * Time.deltaTime * direction;
-        transform.Translate(movementSpeed, 0, 0);
+        Vector2 movementSpeed = speed * Time.deltaTime * direction;
+        transform.Translate(movementSpeed.x, movementSpeed.y, 0);
 
         lifetime += Time.deltaTime;
         if (lifetime > 5) gameObject.SetActive(false);
@@ -37,20 +37,19 @@ public class Projectile : MonoBehaviour
             casualty.TakeDamage(demage);
         boxCollider.enabled = false;
     }
-    public void SetDirection(float _direction)
+    public void SetDirection(Vector2 _direction)
     {
         lifetime = 0;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
         boxCollider.enabled = true;
-
-        float localScaleX = transform.localScale.x;
-        if (Mathf.Sign(localScaleX) != _direction)
-            localScaleX = -localScaleX;
-
+        float rotationZ = direction.y > 0 ? 90 : direction.y < 0 ? -90 : 0;
+        float localScaleX = Mathf.Sign(transform.localScale.x) != _direction.x ? transform.localScale.x : -transform.localScale.x;
+        transform.localRotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, rotationZ, 0f);
         transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
     }
+
     private void Deactivate()
     {
         gameObject.SetActive(false);

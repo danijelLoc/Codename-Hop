@@ -23,10 +23,10 @@ public class Health : MonoBehaviour
             TakeDamage(1);
         if (dead)
         {
-/*            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
+            RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
             bool onTheGround = raycastHit.collider != null;
             if (onTheGround)
-                GetComponent<Rigidbody2D>().simulated = false; rigidBodyDisabled = true;*/
+                Invoke(nameof(DisableRigidBody), 1f);
         }
     }
 
@@ -64,5 +64,11 @@ public class Health : MonoBehaviour
     public float getStartingHealth() 
     {
         return startingHealth;
+    }
+
+    private void DisableRigidBody()
+    {
+        GetComponent<Rigidbody2D>().simulated = false; 
+        rigidBodyDisabled = true;
     }
 }
