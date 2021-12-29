@@ -9,12 +9,12 @@ public class Projectile : MonoBehaviour
     private float lifetime;
 
     private Animator anim;
-    private BoxCollider2D boxCollider;
+    private Collider2D collider2d;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        collider2d = GetComponent<Collider2D>();
     }
     private void Update()
     {
@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
         Health casualty = collision.gameObject.GetComponent<Health>();
         if(casualty != null)
             casualty.TakeDamage(demage);
-        boxCollider.enabled = false;
+        collider2d.enabled = false;
     }
     public void SetDirection(Vector2 _direction)
     {
@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
-        boxCollider.enabled = true;
+        collider2d.enabled = true;
         float rotationZ = direction.y > 0 ? 90 : direction.y < 0 ? -90 : 0;
         float localScaleX = Mathf.Sign(transform.localScale.x) != _direction.x ? transform.localScale.x : -transform.localScale.x;
         transform.localRotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, rotationZ, 0f);

@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 4707437721475672707}
   - component: {fileID: 4707437721475672729}
   - component: {fileID: 4707437721475672732}
-  - component: {fileID: 4707437721475672733}
+  - component: {fileID: 5308682149868489420}
   m_Layer: 7
   m_Name: piratePRO
   m_TagString: Player
@@ -430,8 +430,8 @@ MonoBehaviour:
   range: 1
   damage: 1
   swordAttackCooldown: 0.5
-  colliderDistance: 6
-  boxCollider: {fileID: 4707437721475672733}
+  colliderDistance: 7
+  collider2d: {fileID: 5308682149868489420}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -501,8 +501,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &4707437721475672733
-BoxCollider2D:
+--- !u!70 &5308682149868489420
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -514,19 +514,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1364541, y: 1.1388173}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 19.2, y: 10.8}
-    newSize: {x: 19.2, y: 10.8}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.8619385, y: 11.938453}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.25608778, y: 0.8838685}
+  m_Size: {x: 4.34964, y: 11.064653}
+  m_Direction: 0
 --- !u!1 &4707437722237913599
 GameObject:
   m_ObjectHideFlags: 0

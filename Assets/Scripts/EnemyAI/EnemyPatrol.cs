@@ -21,7 +21,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private Rigidbody2D playerRigidbody;
     private Animator animator;
-    private BoxCollider2D boxCollider;
+    private Collider2D collider2d;
 
     private bool AnimatorGroundedState
     {
@@ -33,7 +33,7 @@ public class EnemyPatrol : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        collider2d = GetComponent<Collider2D>();
         initScale = enemy.localScale;
     }
     private void OnDisable()
@@ -85,7 +85,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHitGround = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastHitGround = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHitGround.collider != null;
     }
 }
