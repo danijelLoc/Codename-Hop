@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D collider2d;
     private Health health;
     private Shooting shooting;
+    private Senses senses;
     private bool momentJustAfterJump = false; //Moment after jump, player is still close to ground. Horizontal input at running speed must be avoided.
     private float wallJumpCoolDown;
 
@@ -56,11 +57,12 @@ public class PlayerMovement : MonoBehaviour
         collider2d = GetComponent<Collider2D>();
         health = GetComponent<Health>();
         shooting = GetComponent<Shooting>();
+        senses = GetComponent<Senses>();
     }
 
     private void Update()
     {
-        AnimatorGroundedState = isGrounded();        
+        AnimatorGroundedState = senses.IsGrounded();
         checkWallDistance();
         checkShootInput();
         checkOnGuardInput();
@@ -77,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
             playerRigidbody.velocity = new Vector2(HorizontalInput * runningSpeed, playerRigidbody.velocity.y);
             setHorizontalSpriteOrientation();
         }
-        else if(!AnimatorWallState && !AnimatorOnGuardState)
+        else if (!AnimatorWallState && !AnimatorOnGuardState)
         {
             playerRigidbody.velocity = new Vector2(getHorizontalAirborneVelocity(), playerRigidbody.velocity.y);
             setHorizontalSpriteOrientation();
@@ -113,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 shooting.ShootDown();
             }
-            else if (Input.GetKey(KeyCode.F) )
+            else if (Input.GetKey(KeyCode.F))
             {
                 shooting.Shoot();
             }
@@ -124,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(AnimatorGroundedState)
+            if (AnimatorGroundedState)
                 jump();
             if (AnimatorWallState)
                 wallJump();
@@ -138,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void checkWallDistance()
     {
-        bool playerOnTheWall = isOnTheWall();
+        bool playerOnTheWall = senses.IsOnTheWall();
         if (playerOnTheWall && !AnimatorGroundedState)
         {
             playerRigidbody.gravityScale = 0;
@@ -175,19 +177,6 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, jumpVerticalSpeed * 0.7f);
     }
 
-    private bool isGrounded()
-    {
-        RaycastHit2D raycastHitGround = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        RaycastHit2D raycastHitOnEnemy = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.1f, enemyLayer);
-        return raycastHitGround.collider != null || raycastHitOnEnemy.collider != null;
-    }
-
-    private bool isOnTheWall()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.01f, wallLayer);
-        return raycastHit.collider != null;
-    }
-
     private float getHorizontalAirborneVelocity()
     {
         float tempVelocity = playerRigidbody.velocity.x + HorizontalInput * airborneControlFactor;
@@ -199,17 +188,17 @@ public class PlayerMovement : MonoBehaviour
             return tempVelocity;
     }
 
-    public bool canShoot() 
+    public bool canShoot()
     {
-        return !isOnTheWall();
+        return !senses.IsOnTheWall();
     }
 
-    public bool canAttackWithSword()
+    public bool CanAttackWithSword()
     {
-        return !isOnTheWall();
+        return !senses.IsOnTheWall();
     }
 
-    public void SetOnGourd()
+    public void SetOnGuard()
     {
         AnimatorOnGuardState = true;
     }

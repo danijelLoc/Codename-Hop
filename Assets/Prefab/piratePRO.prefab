@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 4707437721475672734}
   - component: {fileID: 4707437721475672735}
   - component: {fileID: 4707437721475672728}
+  - component: {fileID: 8592406645875297257}
   - component: {fileID: 4707437721475672705}
   - component: {fileID: 4707437721475672706}
   - component: {fileID: 4707437721475672704}
@@ -375,6 +376,32 @@ MonoBehaviour:
     m_Extent: {x: 4.7036057, y: 5.83905, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
+--- !u!114 &8592406645875297257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707437721475672730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a640e3d853ce3b94fab0fe13add8b0b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeRange: 1.5
+  eyeRange: 20
+  colliderDistanceCloseRange: 5
+  colliderDistanceEyeRange: 2.4
+  collider2d: {fileID: 5308682149868489420}
+  threatLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &4707437721475672705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingCooldown: 0.5
+  initialNumberOfBullets: 0
   shootingPointStraight: {fileID: 4707437721442649957}
   shootingPointUp: {fileID: 4707437722282197538}
   shootingPointDown: {fileID: 4707437720972381697}
@@ -427,14 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c992ec04ba35a448dc1886b75888bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   damage: 1
   swordAttackCooldown: 0.5
-  colliderDistance: 7
-  collider2d: {fileID: 5308682149868489420}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
   swordAirSound: {fileID: 8300000, guid: 82770f51c0928a440ade755414e3f994, type: 3}
 --- !u!114 &4707437721475672707
 MonoBehaviour:

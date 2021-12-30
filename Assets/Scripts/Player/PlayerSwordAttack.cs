@@ -6,20 +6,12 @@ public class PlayerSwordAttack : MonoBehaviour
 {
 
     [Header("Attack Parameters")]
-    [SerializeField] private float range;
     [SerializeField] private int damage;
     [SerializeField] private float swordAttackCooldown;
 
-    [Header("Collider Parameters")]
-    [SerializeField] private float colliderDistance;
-    [SerializeField] private Collider2D collider2d;
-
-
-    [Header("Enemy Layer")]
-    [SerializeField] private LayerMask enemyLayer;
-
     private Health enemyHealth;
     private Animator animator;
+    private Senses senses;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
     [SerializeField] private AudioClip swordAirSound;
@@ -29,13 +21,14 @@ public class PlayerSwordAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+        senses = GetComponent<Senses>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.G) && cooldownTimer > swordAttackCooldown && playerMovement.canAttackWithSword())
+        if (Input.GetKeyDown(KeyCode.G) && cooldownTimer > swordAttackCooldown && playerMovement.CanAttackWithSword())
         {
             Attack();
         }
@@ -50,39 +43,21 @@ public class PlayerSwordAttack : MonoBehaviour
             DamageEnemy();
             animator.SetTrigger("attackWithSword");
         }
-            
+
         cooldownTimer = 0;
 
         //TODO Ako je zamah u prazno onda ovo, ako pogodi nesto ili nekog onda drugi zvuk
         SoundManager.instance.PlaySound(swordAirSound);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(collider2d.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector3(collider2d.bounds.size.x * range, collider2d.bounds.size.y, collider2d.bounds.size.z));
-    }
-
-    private bool EnemyInSight()
-    {
-        RaycastHit2D hit =
-            Physics2D.BoxCast(collider2d.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
-            new Vector3(collider2d.bounds.size.x * range, collider2d.bounds.size.y, collider2d.bounds.size.z),
-            0, Vector2.left, 0, enemyLayer);
-
-        if (hit.collider != null)
-            enemyHealth = hit.transform.GetComponent<Health>();
-
-        return hit.collider != null;
-    }
-
     private void DamageEnemy()
     {
-        if (EnemyInSight()) 
+        var hit = senses.GetHitInSight();
+        if (hit.collider != null)
         {
+            enemyHealth = hit.transform.GetComponent<Health>();
             enemyHealth.TakeDamage(damage);
         }
-            
+
     }
 }

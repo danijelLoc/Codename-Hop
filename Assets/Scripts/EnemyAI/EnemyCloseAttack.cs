@@ -11,6 +11,7 @@ public class EnemyCloseAttack : MonoBehaviour
     private Animator anim;
     private Health health;
     private EnemyPatrol patrol;
+    private Senses senses;
 
     private float cooldownTimer = Mathf.Infinity;
 
@@ -19,12 +20,13 @@ public class EnemyCloseAttack : MonoBehaviour
         anim = GetComponent<Animator>();
         patrol = GetComponentInParent<EnemyPatrol>();
         health = GetComponent<Health>();
+        senses = GetComponent<Senses>();
     }
 
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
-        if (patrol.PlayerInCloseRange())
+        if (senses.ThreatInCloseRange())
         {
             Attack();
         }
@@ -46,7 +48,7 @@ public class EnemyCloseAttack : MonoBehaviour
 
     private void DamagePlayer()
     {
-        if (patrol.PlayerInCloseRange())
+        if (senses.ThreatInCloseRange())
         {
             playerHealth.TakeDamage(damage);
         }
