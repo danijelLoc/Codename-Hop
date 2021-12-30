@@ -127,7 +127,8 @@ public class EnemyPatrol : MonoBehaviour
         {
             guardTimer = 0;
             animator.SetBool("moving", false);
-            animator.SetTrigger("takeGuard");
+            if (!AnimatorOnGuardState)
+                animator.SetTrigger("takeGuard");
             _takeGuard = true;
         }
     }
