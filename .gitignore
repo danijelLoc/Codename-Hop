@@ -10,6 +10,9 @@
 /[Bb]uild/
 /[Bb]uilds/
 
+# Installer
+#/Installer/
+
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
