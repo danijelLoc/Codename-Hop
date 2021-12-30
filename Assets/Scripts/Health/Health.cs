@@ -30,12 +30,12 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float _damage)
+    public void TakeDamage(float damage)
     {
         if (anim.GetBool("onGuard"))
             return;
 
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
         if (currentHealth > 0)
         {
@@ -56,9 +56,9 @@ public class Health : MonoBehaviour
         return dead;
     }
 
-    public void AddHealth(float _value)
+    public void AddHealth(float healthValue)
     {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
+        currentHealth = Mathf.Clamp(currentHealth + healthValue, 0, startingHealth);
     }
 
     public float getStartingHealth() 

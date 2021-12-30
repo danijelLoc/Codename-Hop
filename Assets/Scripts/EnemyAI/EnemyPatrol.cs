@@ -7,21 +7,26 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private Transform rightEdge;
     [SerializeField] private LayerMask groundLayer;
 
-    [Header("Enemy")]
-    [SerializeField] private Transform enemy;
-
     [Header("Movement parameters")]
     [SerializeField] private float speed;
     private Vector3 initScale;
-    private bool movingLeft;
+    private bool movingLeft = true;
+
+    [Header("Close range Parameters")]
+    [SerializeField] private float range;
+
+    [Header("Collider Parameters")]
+    [SerializeField] private float colliderDistance;
+    [SerializeReference] private Collider2D collider2d;
 
     [Header("Idle Behaviour")]
     [SerializeField] private float idleDuration;
     private float idleTimer;
 
-    private Rigidbody2D playerRigidbody;
+    [Header("Player Layer")]
+    [SerializeField] private LayerMask playerLayer;
+
     private Animator animator;
-    private Collider2D collider2d;
 
     private bool AnimatorGroundedState
     {
@@ -31,10 +36,8 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        collider2d = GetComponent<Collider2D>();
-        initScale = enemy.localScale;
+        initScale = transform.localScale;
     }
     private void OnDisable()
     {
@@ -44,21 +47,36 @@ public class EnemyPatrol : MonoBehaviour
     private void Update()
     {
         AnimatorGroundedState = isGrounded();
-        if (movingLeft)
+        if (!PlayerInCloseRange())
         {
-            if (enemy.position.x >= leftEdge.position.x)
-                MoveInDirection(-1);
+            if (movingLeft)
+            {
+                if (transform.position.x >= leftEdge.position.x)
+                    MoveInDirection(-1);
+                else
+                    DirectionChange();
+            }
             else
-                DirectionChange();
+            {
+                if (transform.position.x <= rightEdge.position.x)
+                    MoveInDirection(1);
+                else
+                    DirectionChange();
+            }
         }
-        else
+        else 
         {
-            if (enemy.position.x <= rightEdge.position.x)
-                MoveInDirection(1);
-            else
-                DirectionChange();
+            animator.SetBool("moving", false);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(collider2d.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
+            new Vector3(collider2d.bounds.size.x * range, collider2d.bounds.size.y, collider2d.bounds.size.z));
+    }
+
 
     private void DirectionChange()
     {
@@ -75,12 +93,23 @@ public class EnemyPatrol : MonoBehaviour
         animator.SetBool("moving", true);
 
         //Make enemy face direction
-        enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction,
+        transform.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction,
             initScale.y, initScale.z);
 
         //Move in that direction
-        enemy.position = new Vector3(enemy.position.x + Time.deltaTime * _direction * speed,
-            enemy.position.y, enemy.position.z);
+        transform.position = new Vector3(transform.position.x + Time.deltaTime * _direction * speed,
+            transform.position.y, transform.position.z);
+    }
+
+
+    public bool PlayerInCloseRange()
+    {
+        RaycastHit2D hit =
+            Physics2D.BoxCast(collider2d.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
+            new Vector3(collider2d.bounds.size.x * range, collider2d.bounds.size.y, collider2d.bounds.size.z),
+            0, Vector2.left, 0, playerLayer);
+
+        return hit.collider != null;
     }
 
     private bool isGrounded()
