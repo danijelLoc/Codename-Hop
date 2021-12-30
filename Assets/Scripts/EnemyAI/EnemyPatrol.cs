@@ -14,13 +14,10 @@ public class EnemyPatrol : MonoBehaviour
     [Header("Idle Behaviour")]
     [SerializeField] private float idleDuration;
     [SerializeField] private float guardDuration;
-    [SerializeField] private float reactionTime;
     private float idleTimer = 0;
     private float guardTimer = 0;
-    private float reactionTimer = 0;
 
     private bool _takeGuard = false;
-    private bool _reactOnAttack = false;
 
     private Animator animator;
     private Senses senses;
@@ -52,10 +49,6 @@ public class EnemyPatrol : MonoBehaviour
     private void Update()
     {
         AnimatorGroundedState = senses.IsGrounded();
-        if (_reactOnAttack)
-        {
-
-        }
         if (_takeGuard)
         {
             guardTimer += Time.deltaTime;
@@ -118,7 +111,6 @@ public class EnemyPatrol : MonoBehaviour
 
     public void OnAttack()
     {
-        _reactOnAttack = true;
         if (!senses.ThreatInSight())
         {
             movingLeft = !movingLeft;

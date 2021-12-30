@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingCooldown: 0.5
-  initialNumberOfBullets: 0
+  initialNumberOfBullets: 8
   shootingPointStraight: {fileID: 4707437721442649957}
   shootingPointUp: {fileID: 4707437722282197538}
   shootingPointDown: {fileID: 4707437720972381697}
@@ -471,8 +471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runningSpeed: 7
-  jumpVerticalSpeed: 8
-  jumpHorizontalSpeed: 3
+  jumpVerticalSpeed: 7
+  jumpHorizontalSpeed: 4
   airborneControlFactor: 0.2
   groundLayer:
     serializedVersion: 2

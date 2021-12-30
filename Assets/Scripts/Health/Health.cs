@@ -10,7 +10,6 @@ public class Health : MonoBehaviour
     private EnemyPatrol patrol;
     private Senses senses;
     private bool dead;
-    private bool rigidBodyDisabled;
 
     private void Awake()
     {
@@ -76,6 +75,5 @@ public class Health : MonoBehaviour
     private void DisableRigidBody()
     {
         GetComponent<Rigidbody2D>().simulated = false;
-        rigidBodyDisabled = true;
     }
 }

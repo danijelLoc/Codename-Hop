@@ -8,13 +8,15 @@ public class PlayerSwordAttack : MonoBehaviour
     [Header("Attack Parameters")]
     [SerializeField] private int damage;
     [SerializeField] private float swordAttackCooldown;
+    [SerializeField] private AudioClip swordAirSound;
 
     private Health enemyHealth;
     private Animator animator;
     private Senses senses;
     private PlayerMovement playerMovement;
+
     private float cooldownTimer = Mathf.Infinity;
-    [SerializeField] private AudioClip swordAirSound;
+    private Direction attackDirection = Direction.straight;
 
     // Start is called before the first frame update
     private void Start()
@@ -36,11 +38,19 @@ public class PlayerSwordAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetKey(KeyCode.S)) animator.SetTrigger("attackDownWithSword");
-        else if (Input.GetKey(KeyCode.W)) animator.SetTrigger("attackUpWithSword");
+        if (Input.GetKey(KeyCode.S))
+        {
+            attackDirection = Direction.down;
+            animator.SetTrigger("attackDownWithSword");
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            attackDirection = Direction.up;
+            animator.SetTrigger("attackUpWithSword");
+        }
         else
         {
-            DamageEnemy();
+            attackDirection = Direction.straight;
             animator.SetTrigger("attackWithSword");
         }
 
@@ -52,7 +62,7 @@ public class PlayerSwordAttack : MonoBehaviour
 
     private void DamageEnemy()
     {
-        var hit = senses.GetHitInSight();
+        var hit = senses.GetHitInCloseRange(attackDirection);
         if (hit.collider != null)
         {
             enemyHealth = hit.transform.GetComponent<Health>();

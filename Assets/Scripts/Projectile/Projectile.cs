@@ -45,7 +45,6 @@ public class Projectile : MonoBehaviour
         hit = false;
         collider2d.enabled = true;
         float rotationZ = direction.y > 0 ? 90 : direction.y < 0 ? -90 : 0;
-        Debug.Log(rotationZ);
         float localScaleX = Mathf.Sign(transform.localScale.x) != _direction.x ? transform.localScale.x : -transform.localScale.x;
         transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
         // Rotate only sprite, cant figure it out, using lead ball to skip it.

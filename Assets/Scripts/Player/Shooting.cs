@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Direction
+{
+    up,
+    straight,
+    down
+}
+
 public class Shooting : MonoBehaviour
 {
     [SerializeField] private float shootingCooldown;
@@ -16,13 +23,6 @@ public class Shooting : MonoBehaviour
     public int numberOfBullets { get; private set; }
 
     private Direction shootingDirection = Direction.straight;
-
-    enum Direction
-    {
-        up,
-        straight,
-        down
-    }
 
 
     // Start is called before the first frame update
@@ -91,6 +91,11 @@ public class Shooting : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    public void AddBullets(int numberOfBulletsToAdd)
+    {
+        numberOfBullets += numberOfBulletsToAdd;
     }
 
     private int FindBullet()
