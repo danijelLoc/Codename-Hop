@@ -16,10 +16,10 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float guardDuration;
     private float idleTimer = 0;
     private float guardTimer = 0;
+
     private bool _takeGuard = false;
 
     private Animator animator;
-    private Collider2D collider2d;
     private Senses senses;
 
     private bool AnimatorGroundedState
@@ -37,7 +37,6 @@ public class EnemyPatrol : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        collider2d = GetComponent<Collider2D>();
         senses = GetComponent<Senses>();
         initScale = transform.localScale;
     }
@@ -120,7 +119,8 @@ public class EnemyPatrol : MonoBehaviour
         {
             guardTimer = 0;
             animator.SetBool("moving", false);
-            animator.SetTrigger("takeGuard");
+            if (!AnimatorOnGuardState)
+                animator.SetTrigger("takeGuard");
             _takeGuard = true;
         }
     }

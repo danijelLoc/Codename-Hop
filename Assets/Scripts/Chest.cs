@@ -5,8 +5,8 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     [SerializeReference] private Health protectorHealth;
+    [SerializeReference] private Transform treasure;
     private Animator animator;
-    private bool isOpen = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -18,12 +18,16 @@ public class Chest : MonoBehaviour
     void Update()
     {
         if (protectorHealth.isDead())
-            Invoke(nameof(Open), 1f); 
+            Invoke(nameof(Open), 1f);
     }
 
-    private void Open() 
+    private void Open()
     {
         animator.SetTrigger("open");
-        isOpen = true;
-    } 
+    }
+
+    public void ShowTreasure()
+    {
+        treasure.gameObject.SetActive(true);
+    }
 }

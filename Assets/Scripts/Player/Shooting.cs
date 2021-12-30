@@ -2,7 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shooting: MonoBehaviour
+public enum Direction
+{
+    up,
+    straight,
+    down
+}
+
+public class Shooting : MonoBehaviour
 {
     [SerializeField] private float shootingCooldown;
     [SerializeField] private int initialNumberOfBullets;
@@ -16,13 +23,6 @@ public class Shooting: MonoBehaviour
     public int numberOfBullets { get; private set; }
 
     private Direction shootingDirection = Direction.straight;
-
-    enum Direction
-    {
-        up,
-        straight,
-        down
-    }
 
 
     // Start is called before the first frame update
@@ -79,18 +79,23 @@ public class Shooting: MonoBehaviour
             case Direction.up:
                 {
                     bullets[FindBullet()].transform.position = shootingPointUp.position;
-                    var direction = new Vector2(0, -1);
+                    var direction = new Vector2(0, 1);
                     bullets[FindBullet()].GetComponent<Projectile>().SetDirection(direction);
                     break;
                 }
             case Direction.down:
                 {
                     bullets[FindBullet()].transform.position = shootingPointDown.position;
-                    var direction = new Vector2(0,1);
+                    var direction = new Vector2(0, -1);
                     bullets[FindBullet()].GetComponent<Projectile>().SetDirection(direction);
                     break;
                 }
         }
+    }
+
+    public void AddBullets(int numberOfBulletsToAdd)
+    {
+        numberOfBullets += numberOfBulletsToAdd;
     }
 
     private int FindBullet()

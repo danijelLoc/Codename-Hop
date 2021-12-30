@@ -10,7 +10,6 @@ public class Health : MonoBehaviour
     private EnemyPatrol patrol;
     private Senses senses;
     private bool dead;
-    private bool rigidBodyDisabled;
 
     private void Awake()
     {
@@ -34,12 +33,13 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (patrol != null)
-            patrol.OnAttack();
-
         // No demage if subject is on guard
         if (anim.GetBool("onGuard") && senses.ThreatInSight())
+        {
+            if (patrol != null)
+                patrol.OnAttack();
             return;
+        }
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
@@ -75,6 +75,5 @@ public class Health : MonoBehaviour
     private void DisableRigidBody()
     {
         GetComponent<Rigidbody2D>().simulated = false;
-        rigidBodyDisabled = true;
     }
 }
