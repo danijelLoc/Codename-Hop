@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/Level-megi.unity
     guid: 624cf69aff52b8d498bcf56a96a311e1
+  - enabled: 1
+    path: Assets/Levels/Level1 1.unity
+    guid: e9a53643c26134d4a84f713b01b37289
   m_configObjects: {}
