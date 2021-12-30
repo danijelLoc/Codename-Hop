@@ -9,9 +9,10 @@
 # Builds
 /[Bb]uild/
 /[Bb]uilds/
+/Build.zip
 
 # Installer
-#/Installer/
+/Installer/
 
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
