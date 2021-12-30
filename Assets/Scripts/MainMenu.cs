@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayLevel1() {
+    public void PlayLevel1()
+    {
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -14,7 +15,6 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-
         Application.Quit();
     }
 
