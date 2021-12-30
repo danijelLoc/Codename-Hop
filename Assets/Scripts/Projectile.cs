@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
     }
     private void Update()
     {
-        if (hit) 
+        if (hit)
         {
             Deactivate();
             return;
@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     {
         hit = true;
         Health casualty = collision.gameObject.GetComponent<Health>();
-        if(casualty != null)
+        if (casualty != null)
             casualty.TakeDamage(demage);
         collider2d.enabled = false;
     }

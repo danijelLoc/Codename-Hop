@@ -34,12 +34,13 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (patrol != null)
-            patrol.OnAttack();
-
         // No demage if subject is on guard
         if (anim.GetBool("onGuard") && senses.ThreatInSight())
+        {
+            if (patrol != null)
+                patrol.OnAttack();
             return;
+        }
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
