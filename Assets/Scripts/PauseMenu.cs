@@ -27,7 +27,8 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
-        else if(GameFailed) {
+        else if (GameFailed)
+        {
             FailedUI.SetActive(true);
         }
 
@@ -43,8 +44,6 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1.0f;
         GameIsPaused = false;
-
-        LevelComplete = true;
     }
 
     void Pause()
@@ -52,7 +51,7 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-        
+
     }
 
     public void LoadMenu()
@@ -68,12 +67,14 @@ public class PauseMenu : MonoBehaviour
 
     public void RetryGame()
     {
+        GameFailed = false;
+        LevelComplete = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }

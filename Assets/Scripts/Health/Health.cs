@@ -4,6 +4,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float startingHealth;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeReference] private Transform pointOfNoReturn;
     public float currentHealth { get; private set; }
     private Animator anim;
     private Collider2D collider2d;
@@ -22,6 +23,8 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
+        if (transform.localPosition.y < pointOfNoReturn.localPosition.y)
+            HasFallenFromPlatform();
         if (dead)
         {
             RaycastHit2D raycastHit = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.01f, groundLayer);
@@ -57,6 +60,16 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void HasFallenFromPlatform()
+    {
+        currentHealth = 0;
+        dead = true;
+        this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        this.gameObject.SetActive(false);
+        if (this.gameObject.tag == "Player")
+            PauseMenu.GameFailed = true;
+    }
+
     public bool isDead()
     {
         return dead;
@@ -75,5 +88,7 @@ public class Health : MonoBehaviour
     private void DisableRigidBody()
     {
         GetComponent<Rigidbody2D>().simulated = false;
+        if (this.gameObject.tag == "Player")
+            PauseMenu.GameFailed = true;
     }
 }
