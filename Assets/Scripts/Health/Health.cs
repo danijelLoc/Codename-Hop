@@ -63,6 +63,7 @@ public class Health : MonoBehaviour
     public void HasFallenFromPlatform()
     {
         currentHealth = 0;
+        dead = true;
         this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
         this.gameObject.SetActive(false);
         if (this.gameObject.tag == "Player")
