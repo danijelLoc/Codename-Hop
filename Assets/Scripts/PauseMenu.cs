@@ -5,20 +5,30 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject PauseMenuUI;
+    public GameObject FailedUI;
+    public static bool GameFailed = false;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!GameFailed)
         {
-            if (GameIsPaused)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                if (GameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
+
+        else if(GameFailed) {
+            FailedUI.SetActive(true);
+        }
+        
     }
 
     public void Resume()
@@ -46,4 +56,10 @@ public class PauseMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 }
