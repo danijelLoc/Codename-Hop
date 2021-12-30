@@ -5,23 +5,22 @@ public class EnemyPatrol : MonoBehaviour
     [Header("Patrol Points")]
     [SerializeField] private Transform leftEdge;
     [SerializeField] private Transform rightEdge;
-    [SerializeField] private LayerMask groundLayer;
-
-    [Header("Enemy")]
-    [SerializeField] private Transform enemy;
 
     [Header("Movement parameters")]
     [SerializeField] private float speed;
     private Vector3 initScale;
-    private bool movingLeft;
+    private bool movingLeft = true;
 
     [Header("Idle Behaviour")]
     [SerializeField] private float idleDuration;
-    private float idleTimer;
+    [SerializeField] private float guardDuration;
+    private float idleTimer = 0;
+    private float guardTimer = 0;
+    private bool _takeGuard = false;
 
-    private Rigidbody2D playerRigidbody;
     private Animator animator;
     private Collider2D collider2d;
+    private Senses senses;
 
     private bool AnimatorGroundedState
     {
@@ -29,13 +28,20 @@ public class EnemyPatrol : MonoBehaviour
         set { animator.SetBool("isGrounded", value); }
     }
 
+    private bool AnimatorOnGuardState
+    {
+        get { return animator.GetBool("onGuard"); }
+        set { animator.SetBool("onGuard", value); }
+    }
+
     private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         collider2d = GetComponent<Collider2D>();
-        initScale = enemy.localScale;
+        senses = GetComponent<Senses>();
+        initScale = transform.localScale;
     }
+
     private void OnDisable()
     {
         animator.SetBool("moving", false);
@@ -43,20 +49,41 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
-        AnimatorGroundedState = isGrounded();
-        if (movingLeft)
+        AnimatorGroundedState = senses.IsGrounded();
+        if (_takeGuard)
         {
-            if (enemy.position.x >= leftEdge.position.x)
-                MoveInDirection(-1);
+            guardTimer += Time.deltaTime;
+            if (guardTimer >= guardDuration)
+            {
+                _takeGuard = false;
+                AnimatorOnGuardState = false;
+                guardTimer = 0;
+
+            }
+
             else
-                DirectionChange();
+                return;
+        }
+        if (!senses.ThreatInCloseRange())
+        {
+            if (movingLeft)
+            {
+                if (transform.position.x >= leftEdge.position.x)
+                    MoveInDirection(-1);
+                else
+                    DirectionChange();
+            }
+            else
+            {
+                if (transform.position.x <= rightEdge.position.x)
+                    MoveInDirection(1);
+                else
+                    DirectionChange();
+            }
         }
         else
         {
-            if (enemy.position.x <= rightEdge.position.x)
-                MoveInDirection(1);
-            else
-                DirectionChange();
+            animator.SetBool("moving", false);
         }
     }
 
@@ -75,17 +102,36 @@ public class EnemyPatrol : MonoBehaviour
         animator.SetBool("moving", true);
 
         //Make enemy face direction
-        enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction,
+        transform.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction,
             initScale.y, initScale.z);
 
         //Move in that direction
-        enemy.position = new Vector3(enemy.position.x + Time.deltaTime * _direction * speed,
-            enemy.position.y, enemy.position.z);
+        transform.position = new Vector3(transform.position.x + Time.deltaTime * _direction * speed,
+            transform.position.y, transform.position.z);
     }
 
-    private bool isGrounded()
+    public void OnAttack()
     {
-        RaycastHit2D raycastHitGround = Physics2D.BoxCast(collider2d.bounds.center, collider2d.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHitGround.collider != null;
+        if (!senses.ThreatInSight())
+        {
+            movingLeft = !movingLeft;
+        }
+        else
+        {
+            guardTimer = 0;
+            animator.SetBool("moving", false);
+            animator.SetTrigger("takeGuard");
+            _takeGuard = true;
+        }
+    }
+
+    private void LowerGuard()
+    {
+        AnimatorOnGuardState = false;
+    }
+
+    public void SetOnGuard()
+    {
+        AnimatorOnGuardState = true;
     }
 }

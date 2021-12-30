@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shooting: MonoBehaviour
 {
     [SerializeField] private float shootingCooldown;
+    [SerializeField] private int initialNumberOfBullets;
     [SerializeField] private Transform shootingPointStraight;
     [SerializeField] private Transform shootingPointUp;
     [SerializeField] private Transform shootingPointDown;
@@ -12,6 +13,7 @@ public class Shooting: MonoBehaviour
     [SerializeField] private AudioClip gunShotSound;
     private Animator animator;
     private float cooldownTimer = Mathf.Infinity;
+    public int numberOfBullets { get; private set; }
 
     private Direction shootingDirection = Direction.straight;
 
@@ -24,8 +26,9 @@ public class Shooting: MonoBehaviour
 
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
+        numberOfBullets = initialNumberOfBullets;
         animator = GetComponent<Animator>();
     }
 
@@ -61,7 +64,9 @@ public class Shooting: MonoBehaviour
 
     public void PullTheTrigger()
     {
+        if (numberOfBullets == 0) return;
         SoundManager.instance.PlaySound(gunShotSound);
+        numberOfBullets--;
         switch (shootingDirection)
         {
             case Direction.straight:
