@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c8b78f5b64dd14489888429ff6486f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingCooldown: 0.5
+  shootingCooldown: 0.75
   initialNumberOfBullets: 8
   shootingPointStraight: {fileID: 4707437721442649957}
   shootingPointUp: {fileID: 4707437722282197538}
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  swordAttackCooldown: 0.5
+  swordAttackCooldown: 0.75
   swordAirSound: {fileID: 8300000, guid: 82770f51c0928a440ade755414e3f994, type: 3}
 --- !u!114 &4707437721475672707
 MonoBehaviour:

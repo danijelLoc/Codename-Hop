@@ -45,9 +45,8 @@ public class Senses : MonoBehaviour
         {
             case (Direction.straight):
                 hit =
-                    Physics2D.BoxCast(collider2d.bounds.center + transform.right * closeRange * transform.localScale.x * colliderDistanceEyeRange,
-                    new Vector3(collider2d.bounds.size.x * closeRange, collider2d.bounds.size.y, collider2d.bounds.size.z),
-                    0, Vector2.left, 0, threatLayer);
+                    Physics2D.BoxCast(collider2d.bounds.center + transform.right * closeRange * transform.localScale.x * colliderDistanceCloseRange,
+                    new Vector3(collider2d.bounds.size.x * closeRange, collider2d.bounds.size.y, collider2d.bounds.size.z), 0, Vector2.left, 0, threatLayer);
                 break;
             case (Direction.up):
                 hit =

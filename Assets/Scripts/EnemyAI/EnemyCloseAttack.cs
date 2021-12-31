@@ -5,7 +5,6 @@ public class EnemyCloseAttack : MonoBehaviour
     [Header("Attack Parameters")]
     [SerializeField] private float attackCooldown;
     [SerializeField] private int damage;
-    [SerializeReference] private Health playerHealth;
     [SerializeField] private AudioClip swordAirSound;
 
     //References
@@ -50,8 +49,10 @@ public class EnemyCloseAttack : MonoBehaviour
 
     private void DamagePlayer()
     {
-        if (senses.ThreatInCloseRange())
+        var hit = senses.GetHitInCloseRange(Direction.straight);
+        if (hit.collider != null)
         {
+            Health playerHealth = hit.transform.GetComponent<Health>();
             playerHealth.TakeDamage(damage);
         }
     }

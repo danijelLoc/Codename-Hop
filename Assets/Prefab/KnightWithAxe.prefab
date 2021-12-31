@@ -244,9 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb460628773bd74d8373e4f010522bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0.5
+  attackCooldown: 1
   damage: 1
-  playerHealth: {fileID: 0}
   swordAirSound: {fileID: 8300000, guid: 82770f51c0928a440ade755414e3f994, type: 3}
 --- !u!114 &2058851978815589963
 MonoBehaviour:
