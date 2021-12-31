@@ -4,7 +4,11 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float startingHealth;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private AudioClip swordClashSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hurtSound;
     [SerializeReference] private Transform pointOfNoReturn;
+
     public float currentHealth { get; private set; }
     private Animator anim;
     private Collider2D collider2d;
@@ -39,6 +43,7 @@ public class Health : MonoBehaviour
         // No demage if subject is on guard
         if (anim.GetBool("onGuard") && senses.ThreatInSight())
         {
+            SoundManager.instance.PlaySound(swordClashSound);
             if (patrol != null)
                 patrol.OnAttack();
             return;
@@ -48,12 +53,14 @@ public class Health : MonoBehaviour
 
         if (currentHealth > 0)
         {
+            SoundManager.instance.PlaySound(hurtSound);
             anim.SetTrigger("getHurt");
         }
         else
         {
             if (!dead)
             {
+                SoundManager.instance.PlaySound(deathSound);
                 anim.SetTrigger("die");
                 dead = true;
             }

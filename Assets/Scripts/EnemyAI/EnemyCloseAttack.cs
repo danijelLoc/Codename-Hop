@@ -6,6 +6,7 @@ public class EnemyCloseAttack : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private int damage;
     [SerializeReference] private Health playerHealth;
+    [SerializeField] private AudioClip swordAirSound;
 
     //References
     private Animator anim;
@@ -42,6 +43,7 @@ public class EnemyCloseAttack : MonoBehaviour
         if (cooldownTimer >= attackCooldown)
         {
             anim.SetTrigger("closeAttack");
+            SoundManager.instance.PlaySound(swordAirSound);
             cooldownTimer = 0;
         }
     }
