@@ -25,7 +25,7 @@ public class Chest : MonoBehaviour
     private void Open()
     {
         animator.SetTrigger("open");
-        SoundManager.instance.PlaySound(chestOpenSound);
+        //SoundManager.instance.PlaySound(chestOpenSound);
     }
 
     public void ShowTreasure()
