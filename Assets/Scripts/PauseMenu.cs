@@ -58,6 +58,8 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("Menu");
+        GameFailed = false;
+        LevelComplete = false;
     }
 
     public void QuitGame()
@@ -75,6 +77,8 @@ public class PauseMenu : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameFailed = false;
+        LevelComplete = false;
     }
 
 }
