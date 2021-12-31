@@ -25,6 +25,11 @@ public class PauseMenu : MonoBehaviour
                     Pause();
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                LevelComplete = true;
+            }
         }
 
         else if (GameFailed)
