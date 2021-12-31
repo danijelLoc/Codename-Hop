@@ -12134,7 +12134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 711393987}
-  aheadDistance: 3
+  aheadDistance: 5
+  yOffset: 2.5
   cameraSpeed: 5
 --- !u!1001 &1992728903
 PrefabInstance:
