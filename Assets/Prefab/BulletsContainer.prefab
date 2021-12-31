@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3920798746006880344}
   - component: {fileID: 5308612518892484824}
+  - component: {fileID: 2947883255597483492}
   - component: {fileID: 4679929058854112431}
   m_Layer: 0
   m_Name: BulletsContainer
@@ -131,6 +132,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfBullets: 6
   playerShooting: {fileID: 0}
+--- !u!114 &2947883255597483492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959655172473896332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb32176d4258ec4a8d59e5b18b4ad58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: {fileID: 8300000, guid: f51fc7d1292da6b4683dbe9e2f469e48, type: 3}
 --- !u!61 &4679929058854112431
 BoxCollider2D:
   m_ObjectHideFlags: 0

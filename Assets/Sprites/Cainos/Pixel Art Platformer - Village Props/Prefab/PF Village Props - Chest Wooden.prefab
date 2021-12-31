@@ -205,4 +205,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   protectorHealth: {fileID: 0}
-  treasure: {fileID: 0}
+  treasure: {fileID: 350463439597190660}
+  soundOpen: {fileID: 0}

@@ -419,7 +419,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   swordClashSound: {fileID: 8300000, guid: 4b27054224cb0d84fac8b616ae51801f, type: 3}
-  deathSound: {fileID: 8300000, guid: 38454a20e6c0ba345b81812f3af6a440, type: 3}
+  deathSound: {fileID: 8300000, guid: e3eb00c3c736bff46b47ae268f78932f, type: 3}
   hurtSound: {fileID: 8300000, guid: 532ea2cb6f1ff1f4f8b847400f4fde71, type: 3}
   pointOfNoReturn: {fileID: 0}
 --- !u!114 &4707437721475672706

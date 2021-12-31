@@ -6,7 +6,7 @@ public class Chest : MonoBehaviour
 {
     [SerializeReference] private Health protectorHealth;
     [SerializeReference] private Transform treasure;
-    [SerializeField] private AudioClip chestOpenSound;
+    [SerializeField] private AudioClip soundOpen;
     private Animator animator;
 
     // Start is called before the first frame update
@@ -24,8 +24,9 @@ public class Chest : MonoBehaviour
 
     private void Open()
     {
+        if (soundOpen != null)
+            SoundManager.instance.PlaySound(soundOpen);
         animator.SetTrigger("open");
-        //SoundManager.instance.PlaySound(chestOpenSound);
     }
 
     public void ShowTreasure()

@@ -71,6 +71,7 @@ public class Health : MonoBehaviour
     {
         currentHealth = 0;
         dead = true;
+        SoundManager.instance.PlaySound(deathSound);
         this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
         this.gameObject.SetActive(false);
         if (this.gameObject.tag == "Player")
