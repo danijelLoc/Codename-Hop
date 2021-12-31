@@ -6429,16 +6429,16 @@ AudioSource:
   m_GameObject: {fileID: 1852436970}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 5ddccc5f924cacd41a5a56cac9180ec8, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3613924be4925534ab5cc486f03243f9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.05
   m_Pitch: 0.7
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 140
+  Priority: 122
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
